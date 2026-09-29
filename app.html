@@ -292,7 +292,7 @@
     .grid { columns:1; }
   }
 
-  /* ===== v1.8 — pratinjau & edit: tombol + animasi ===== */
+ 
   @keyframes nmRise { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
   @keyframes nmFooterIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
   @keyframes lbIn { from { opacity:0; transform:scale(.92); } to { opacity:1; transform:none; } }
@@ -474,7 +474,7 @@
   </main>
 </div>
 
-<!-- Pratinjau catatan, lightbox & toast: HARUS berada SEBELUM <script>, kalau tidak getElementById() mengembalikan null -->
+
 <div class="nm-backdrop" id="noteModal">
   <div class="nm-card" id="nmCard" role="dialog" aria-modal="true" aria-label="Pratinjau catatan" tabindex="-1">
     <button class="nm-close" id="nmClose" title="Tutup" aria-label="Tutup">✕</button>
@@ -494,7 +494,7 @@
 <script src="assets/simpan-ui.js?v=1.9.4"></script>
 <script>
 (function(){
-  var APP_VERSION = '1.9.4'; // naikkan angka ini tiap kali update app.html, biar gampang cek versi mana yang aktif
+  var APP_VERSION = '1.9.4'; 
   SimpanUI.setVersion('appVersion', APP_VERSION);
   SimpanUI.initRipple();
   SimpanUI.initTilt('#pinnedGrid, #othersGrid', '.note');
@@ -603,7 +603,7 @@
           tags:n.tags||[], images:n.images||[],
           pinned:n.pinned, archived:n.archived, trashed:n.trashed, createdBy:n.createdBy, updatedBy:n.updatedBy, updatedAt:n.updatedAt };
       });
-      // Polling often returns identical data. Avoid rebuilding every card (and replaying its entrance animation).
+    
       if (JSON.stringify(nextNotes) === JSON.stringify(state.notes)) return;
       state.notes = nextNotes;
       render();
@@ -625,7 +625,7 @@
     api('logout.php', { method:'POST' }).catch(function(){}).then(function(){ window.location.href = 'login.html'; });
   });
 
-  // ---------- Composer ----------
+
   var composer = document.getElementById('composer');
   var titleInput = document.getElementById('titleInput');
   var bodyInput = document.getElementById('bodyInput');
@@ -636,14 +636,13 @@
   var imageInput = document.getElementById('imageInput');
   var imagePreviewStrip = document.getElementById('imagePreviewStrip');
   var composerColor = COLORS[0];
-  var composerTextColor = null;   // null = ikut warna tema default
+  var composerTextColor = null;   
   var composerFontFamily = 'default';
   var composerChecklist = null;
-  var composerImages = []; // array nama file yang sudah berhasil diunggah
+  var composerImages = []; 
   var composerTags = [];
 
-  // Teks otomatis gelap di atas latar terang dan terang di atas latar gelap,
-  // supaya catatan tetap terbaca di tema gelap maupun terang.
+
   function autoTextColor(hex){
     var m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex || '');
     if (!m) return '#16232B';
@@ -1132,10 +1131,9 @@
     bodyInput.focus();
   }
 
-  // ---------- Lightbox ----------
+ 
   var lightbox = document.getElementById('lightbox');
   var lightboxImg = document.getElementById('lightboxImg');
-  // ---------- Pratinjau catatan (diperbesar, ala Google Keep) ----------
   var noteModal = document.getElementById('noteModal');
   var nmCard = document.getElementById('nmCard');
   var nmContent = document.getElementById('nmContent');
@@ -1182,7 +1180,7 @@
     if (cardAnim) { cardAnim.onfinish = null; cardAnim.cancel(); cardAnim = null; }
     if (backdropAnim) { backdropAnim.cancel(); backdropAnim = null; }
   }
-  // Transform yang memindahkan kartu pratinjau ke posisi/ukuran kartu asal (efek "tumbuh dari kartu")
+
   function shrinkTransform(fromRect, toRect){
     var dx = (fromRect.left + fromRect.width / 2) - (toRect.left + toRect.width / 2);
     var dy = (fromRect.top + fromRect.height / 2) - (toRect.top + toRect.height / 2);
@@ -1205,7 +1203,7 @@
     cardAnim = nmCard.animate(frames, { duration:340, easing:'cubic-bezier(.2,.8,.2,1)' });
   }
 
-  // fast = true dipakai saat lanjut ke mode edit (tutup cepat, tanpa terbang balik ke kartu)
+
   function closePreview(fast){
     if (!noteModal.classList.contains('open') || previewClosing) return;
     var id = previewId;
