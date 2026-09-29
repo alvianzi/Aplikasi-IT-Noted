@@ -1,0 +1,8 @@
+<FilesMatch "^(config\.php|schema\.sql)$">
+  Require all denied
+</FilesMatch>
+
+# Paksa HTTPS (opsional — aktifkan baris di bawah jika situs sudah punya SSL)
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]

@@ -1,0 +1,17 @@
+{
+  "id": "./",
+  "name": "IT Noted — Catatan Tim",
+  "short_name": "IT Noted",
+  "description": "Catatan bersama untuk tim.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#E9EDEF",
+  "theme_color": "#1F6F63",
+  "orientation": "any",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    { "src": "assets/pwa-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/pwa-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

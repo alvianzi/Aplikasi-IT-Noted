@@ -1,0 +1,44 @@
+/* Simpan — gaya pendukung untuk efek di assets/simpan-ui.js */
+
+.sui-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  transform: scale(0);
+  animation: sui-ripple-anim .5s ease-out;
+  pointer-events: none;
+}
+@keyframes sui-ripple-anim {
+  to { transform: scale(1); opacity: 0; }
+}
+
+.sui-confetti {
+  position: fixed;
+  width: 6px; height: 10px;
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 300;
+  animation: sui-confetti-fly .6s ease-out forwards;
+}
+@keyframes sui-confetti-fly {
+  from { transform: translate(0, 0) rotate(0); opacity: 1; }
+  to   { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; }
+}
+
+#toastStack {
+  position: fixed; bottom: 20px; right: 20px; z-index: 200;
+  display: flex; flex-direction: column; gap: 8px;
+  max-width: min(320px, calc(100vw - 40px));
+}
+.sui-toast {
+  background: var(--paper); border: 1px solid var(--line); border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18); padding: 11px 14px; font-size: 0.86rem;
+  color: var(--ink); display: flex; align-items: center; gap: 8px;
+  animation: sui-toast-in .25s cubic-bezier(.34,1.56,.64,1) both;
+}
+.sui-toast.leaving { animation: sui-toast-out .2s ease forwards; }
+.sui-toast.error { border-color: var(--danger); }
+.sui-toast.error .sui-toast-dot { background: var(--danger); }
+.sui-toast-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+@keyframes sui-toast-in { from { opacity:0; transform:translateY(10px) scale(.96); } to { opacity:1; transform:translateY(0) scale(1); } }
+@keyframes sui-toast-out { to { opacity:0; transform:translateX(20px); } }
