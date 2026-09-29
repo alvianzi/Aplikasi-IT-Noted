@@ -4,7 +4,6 @@ start_session();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-// GET → cek status login saat ini (dipakai app.html saat pertama dibuka)
 if ($method === 'GET') {
     if (empty($_SESSION['user_id'])) {
         json_response(['loggedIn' => false]);
@@ -22,7 +21,7 @@ if ($method === 'GET') {
         session_destroy();
         json_response(['loggedIn' => false]);
     }
-    $_SESSION['last_activity'] = $now; // membuka/refresh halaman dianggap aktivitas nyata
+    $_SESSION['last_activity'] = $now; 
     json_response([
         'loggedIn' => true,
         'userId' => (int)$_SESSION['user_id'],
@@ -33,7 +32,7 @@ if ($method === 'GET') {
     ]);
 }
 
-// POST → proses login
+
 if ($method === 'POST') {
     $body = read_json_body();
     $username = trim($body['username'] ?? '');
@@ -47,7 +46,7 @@ if ($method === 'POST') {
     $stmt->execute([$username]);
     $user = $stmt->fetch();
 
-    // Selalu proses waktu yang relatif sama agar tidak bocorkan username valid/tidak (timing attack)
+    
     $dummyHash = '$2y$10$abcdefghijklmnopqrstuuVYNH1p9pFhK3z0m8s5jvOa1c1wq1r9C';
 
     if (!$user) {
@@ -75,7 +74,7 @@ if ($method === 'POST') {
         json_response(['error' => 'Username atau kata sandi salah'], 401);
     }
 
-    // Login berhasil
+   
     $stmt = db()->prepare('UPDATE users SET failed_attempts = 0, locked_until = NULL WHERE id = ?');
     $stmt->execute([$user['id']]);
 
