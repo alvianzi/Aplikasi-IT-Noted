@@ -1,20 +1,16 @@
 <?php
-// ============================================================
-// KONFIGURASI — isi sesuai data hosting/database kamu
-// ============================================================
-define('DB_HOST', 'sql211.infinityfree.com');
-define('DB_NAME', 'if0_43030647_schema');
-define('DB_USER', 'if0_43030647');
-define('DB_PASS', 'Nestha21321');
 
-// Set true kalau situs ini sudah pakai HTTPS (WAJIB untuk keamanan cookie sesi)
+define('DB_HOST', '');
+define('DB_NAME', '');
+define('DB_USER', '');
+define('DB_PASS', '');
+
+
 define('APP_USE_HTTPS', true);
 
-// ============================================================
-// Jangan ubah bagian di bawah ini
-// ============================================================
+
 error_reporting(E_ALL);
-ini_set('display_errors', '0'); // jangan tampilkan error mentah ke user di production
+ini_set('display_errors', '0'); 
 
 function db(): PDO {
     static $pdo = null;
@@ -48,10 +44,8 @@ function json_response($data, int $status = 200): void {
     exit;
 }
 
-define('SESSION_TIMEOUT_SECONDS', 30 * 60); // 30 menit tidak aktif → otomatis logout
+define('SESSION_TIMEOUT_SECONDS', 30 * 60); 
 
-// Cek ulang ke database: akun yang dihapus/dinonaktifkan langsung kehilangan akses,
-// dan perubahan peran (admin <-> anggota) berlaku seketika tanpa menunggu login ulang.
 function refresh_session_user(): bool {
     $stmt = db()->prepare('SELECT display_name, is_admin, is_active FROM users WHERE id = ?');
     $stmt->execute([$_SESSION['user_id']]);
@@ -62,7 +56,7 @@ function refresh_session_user(): bool {
     return true;
 }
 
-// Anggota (non-admin) hanya boleh melihat. Panggil ini sebelum operasi tambah/ubah/hapus.
+
 function ensure_can_edit(array $me): void {
     if (empty($me['is_admin'])) {
         json_response(['error' => 'Akun anggota hanya bisa melihat catatan. Hanya admin yang bisa menambah atau mengubah.'], 403);
@@ -90,9 +84,6 @@ function require_login(): array {
         json_response(['error' => 'Akun ini sudah tidak aktif atau telah dihapus.'], 401);
     }
 
-    // Sinkronisasi pemantauan latar (loadNotes berkala) tidak dianggap "aktivitas" —
-    // supaya tab yang dibiarkan terbuka tanpa disentuh tetap logout setelah 30 menit,
-    // walau data di baliknya terus tersinkron sendiri.
     $isBackgroundSync = ($_SERVER['HTTP_X_BACKGROUND_SYNC'] ?? '') === '1';
     if (!$isBackgroundSync) {
         $_SESSION['last_activity'] = $now;
